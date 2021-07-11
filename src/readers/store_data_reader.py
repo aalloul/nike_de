@@ -16,5 +16,5 @@ class StoreDataReader(InputDataReader):
         super().__init__(spark_context, config)
 
     def read(self) -> dataframe:
-        return self._read(self.config.input_sales) \
+        return self._read(self.config.input_store) \
             .withColumnRenamed("storeid", "storeId")

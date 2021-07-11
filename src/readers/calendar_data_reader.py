@@ -15,6 +15,8 @@ class CalendarDataReader(InputDataReader):
     # we could use smaller data types here but according to
     # https://stackoverflow.com/questions/14531235/in-java-is-it-more-efficient-to-use-byte-or-short-instead-of-int-and-float-inst
     # this wouldn't necessarily be a good idea.
+
+    # TODO week 1 starts somewhere around 31 Dec 2018
     schema = T.StructType() \
         .add("datekey", T.IntegerType()) \
         .add("datecalendarday", T.IntegerType()) \
