@@ -67,7 +67,7 @@ class JsonWriter(object):
         return self.df \
             .groupBy("uniqueKey") \
             .applyInPandas(self.collect_rows, schema=self.expected_schema) \
-            .drop("totalNetSales", "totalSalesUnits")
+            .drop("totalNetSales", "totalSalesUnits", "weekNumber")
 
     def write(self):
         """
