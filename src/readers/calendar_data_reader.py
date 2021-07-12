@@ -43,7 +43,12 @@ class CalendarDataReader(InputDataReader):
             .withColumn("first_date", F.lit(first_date_id)) \
             .withColumn("daysSinceStart", F.col("dateId") - F.col("first_date")) \
             .withColumn("date", F.lit(self.year_start_date) + F.col("daysSinceStart")) \
-            .withColumn("weekNumber", F.weekofyear(F.col("date")))
+            .withColumn("weekNumber", F.weekofyear(F.col("date"))) \
+            .withColumn("weekNumber", F.concat(F.lit("W"),
+                                               F.col("weekNumber"))) \
+            .withColumn("year", F.date_format("date", "yy"))\
+            .withColumn("year", F.concat(F.lit("RY"), F.col("year")))\
+            .drop(F.col("date"))
 
         # Filter to accommodate for the reporting of a single week
         if Config.reporting_week is None:

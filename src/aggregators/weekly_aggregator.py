@@ -32,6 +32,9 @@ class WeeklyAggregator(object):
             .fillna(0)
 
         return actual_sales \
-            .groupBy("division", "gender", "category", "channel", "datecalendaryear", "weekNumber") \
+            .groupBy("division", "gender", "category", "channel", "year", "weekNumber") \
             .agg(F.sum("netSales").alias("totalNetSales"),
-                 F.sum("salesUnits").alias("totalSalesUnits"))
+                 F.sum("salesUnits").alias("totalSalesUnits")) \
+            .withColumn("uniqueKey",
+                        F.concat_ws("_", "year", "channel", "division",
+                                    "gender", "category"))
