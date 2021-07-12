@@ -7,14 +7,15 @@ from typing import Type
 
 class CalendarDataReader(InputDataReader):
     """
-    This class encapsulates the calendar dataset. It defines a few transformations on the input dataset to allow the
+    This class encapsulates the calendar dataset. It defines a few
+    transformations on the input dataset to allow the
     extraction of the week number in the year.
-    The main method is `read`. It returns a `pyspark.sql.dataframe` with the columns `dateId, weekNumber`.
+    The main method is `read`. It returns a `pyspark.sql.dataframe` with the
+    columns `dateId, weekNumber`.
     """
 
-    # we could use smaller data types here but according to
-    # https://stackoverflow.com/questions/14531235/in-java-is-it-more-efficient-to-use-byte-or-short-instead-of-int-and-float-inst
-    # this wouldn't necessarily be a good idea.
+    # we could use smaller data types here but  this wouldn't necessarily be a
+    # good idea due to how JVM implements ShortType
 
     # TODO week 1 starts somewhere around 31 Dec 2018
     schema = T.StructType() \
@@ -31,18 +32,23 @@ class CalendarDataReader(InputDataReader):
         self.year_start_date = date(Config.reporting_year, 1, 1)
 
     def read(self) -> dataframe:
-        df = self._read(self.config.input_calendar).withColumnRenamed("datekey", "dateId")
+        df = self._read(self.config.input_calendar).withColumnRenamed("datekey",
+                                                                      "dateId")
         first_date_id = self.min_date_id(df)
 
-        # the column `datekey` (in the original dataset) is an integer that seems to increase by `+1` for every day.
-        # As the dataset only has the year and calendar day (which resets at the end of each calendar month), we assume
-        # that the date is simply the year + (current_dateId - first_date_id)
+        # the column `datekey` (in the original dataset) is an integer that
+        # seems to increase by `+1` for every day. As the dataset only has the
+        # year and calendar day (which resets at the end of each calendar
+        # month), we assume that the date is simply the
+        # year + (current_dateId - first_date_id)
         # Based on this assumption, we can then extract the weekofyear
         df = df \
             .filter(F.col("datecalendaryear") == Config.reporting_year) \
             .withColumn("first_date", F.lit(first_date_id)) \
-            .withColumn("daysSinceStart", F.col("dateId") - F.col("first_date")) \
-            .withColumn("date", F.lit(self.year_start_date) + F.col("daysSinceStart")) \
+            .withColumn("daysSinceStart", F.col("dateId") -
+                        F.col("first_date")) \
+            .withColumn("date", F.lit(self.year_start_date) +
+                        F.col("daysSinceStart")) \
             .withColumn("weekNumber", F.weekofyear(F.col("date"))) \
             .withColumn("weekNumber", F.concat(F.lit("W"),
                                                F.col("weekNumber"))) \
@@ -59,7 +65,8 @@ class CalendarDataReader(InputDataReader):
     @staticmethod
     def min_date_id(df: dataframe) -> int:
         """
-        This method extracts the first `dateId` (or `dateKey` in the original dataset).
+        This method extracts the first `dateId` (or `dateKey` in the original
+         dataset).
         :param df: Input calendar dataframe
         :return: The minimum `dateId` in the data
         """

@@ -19,4 +19,5 @@ class ProductDataReader(InputDataReader):
         super().__init__(spark_context, config)
 
     def read(self):
-        return self._read(self.config.input_product).withColumnRenamed("productid", "productId")
+        return self._read(self.config.input_product)\
+            .withColumnRenamed("productid", "productId")

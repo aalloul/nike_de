@@ -32,13 +32,12 @@ class JsonWriter(object):
         This method simply craetes a dict where the `weekNumber` is
         the key and
         the aggregated value is the value.
-        :param dataframe: the dataframe containing the data we need
+        :param pdf: the dataframe containing the data we need
         :param column_name: name of the column where the aggregation is stored
         :return: Dictionary
         """
 
         return dict(zip(pdf["weekNumber"].values, pdf[column_name]))
-
 
     def collect_rows(self, pdf: dataframe) -> dataframe:
         """
@@ -67,14 +66,15 @@ class JsonWriter(object):
         """
         return self.df \
             .groupBy("uniqueKey") \
-            .applyInPandas(self.collect_rows, schema=self.expected_schema)\
-            .drop("totalNetSales", "totalSalesUnits")\
+            .applyInPandas(self.collect_rows, schema=self.expected_schema) \
+            .drop("totalNetSales", "totalSalesUnits")
 
     def write(self):
         """
         This method formats and writes the dataframe in JSON format.
         """
-        self._format()\
-            .write\
-            .parition("uniqueKey")\
+
+        self._format() \
+            .write \
+            .parition("uniqueKey") \
             .json(self.config.reporting_output_file)
