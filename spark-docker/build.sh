@@ -6,16 +6,16 @@ JUPYTERLAB_VERSION="2.1.5"
 
 # -- Building the Images
 
-docker build \
-  -f cluster-base.dockerfile \
-  -t cluster-base .
+#docker build \
+#  -f cluster-base.dockerfile \
+#  -t cluster-base .
 
 docker build \
   --build-arg spark_version="${SPARK_VERSION}" \
   --build-arg hadoop_version="${HADOOP_VERSION}" \
   -f spark-base.dockerfile \
   -t spark-base .
-
+#
 docker build \
   -f spark-master.dockerfile \
   -t spark-master .
