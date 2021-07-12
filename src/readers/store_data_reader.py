@@ -5,6 +5,9 @@ from typing import Type
 
 
 class StoreDataReader(InputDataReader):
+    """
+    This class encapsulates the read function to load the Store dataset
+    """
     schema = T.StructType() \
         .add("storeid", T.IntegerType()) \
         .add("channel", T.StringType()) \

@@ -5,6 +5,9 @@ from typing import Type
 
 
 class ProductDataReader(InputDataReader):
+    """
+    This class encapsulates the read function to load the Product dataset
+    """
     schema = T.StructType() \
         .add("productid", T.StringType()) \
         .add("division", T.StringType()) \
