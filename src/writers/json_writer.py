@@ -1,6 +1,6 @@
 from typing import Type
 from pyspark.sql import dataframe, types as T
-from config import Config
+from src.config import Config
 
 
 class JsonWriter(object):

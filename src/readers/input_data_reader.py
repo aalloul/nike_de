@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from config import Config
+from src.config import Config
 from typing import Type
 
 class InputDataReader(object):

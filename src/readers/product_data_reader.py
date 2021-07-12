@@ -1,5 +1,5 @@
-from input_data_reader import InputDataReader
-from config import Config
+from src.readers.input_data_reader import InputDataReader
+from src.config import Config
 from pyspark.sql import SparkSession, types as T
 from typing import Type
 

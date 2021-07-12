@@ -1,10 +1,10 @@
-from calendar_data_reader import CalendarDataReader
-from product_data_reader import ProductDataReader
-from sales_data_reader import SalesDataReader
-from store_data_reader import StoreDataReader
-from weekly_aggregator import WeeklyAggregator
-from json_writer import JsonWriter
-from config import Config
+from src.readers.calendar_data_reader import CalendarDataReader
+from src.readers.product_data_reader import ProductDataReader
+from src.readers.sales_data_reader import SalesDataReader
+from src.readers.store_data_reader import StoreDataReader
+from src.aggregators.weekly_aggregator import WeeklyAggregator
+from src.writers.json_writer import JsonWriter
+from src.config import Config
 from pyspark.sql import SparkSession
 
 
